@@ -3,177 +3,242 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apartment — availability</title>
+  <title>Heated pool seaview apartment · Cala de Finestrat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --cream: #f5f0e8;
-      --ink: #1a1612;
-      --ink-soft: #4a3f35;
-      --sand: #d4c4a8;
-      --terracotta: #b85c38;
-      --available: #3d6b4f;
-      --busy: #b85c38;
-      --today-ring: #1a1612;
+      --sea:       #1a7fa0;
+      --sea-mid:   #2a9dc2;
+      --sea-light: #e8f4f8;
+      --sea-pale:  #f2f9fc;
+      --white:     #ffffff;
+      --stone:     #f7f5f1;
+      --sand:      #e8e2d8;
+      --ink:       #16202a;
+      --ink-mid:   #3d4f5c;
+      --ink-soft:  #7a8f9e;
+      --warm:      #c87941;
+      --ok:        #2e8b57;
+      --err:       #c0392b;
     }
 
-    html { font-size: 16px; scroll-behavior: smooth; }
+    html { font-size: 16px; }
 
     body {
-      background: var(--cream);
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--white);
       color: var(--ink);
-      font-family: 'Cormorant Garamond', Georgia, serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-
-    /* ── HEADER ── */
-    header {
-      position: relative;
-      padding: 80px 40px 60px;
-      max-width: 900px;
-      margin: 0 auto;
-      z-index: 1;
-    }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      margin-bottom: 24px;
+    .topbar {
+      background: var(--sea);
+      color: white;
+      padding: 10px 40px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .eyebrow::after {
+    .topbar-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+    }
+
+    .hero-wrap { background: var(--sea-pale); }
+
+    .hero {
+      padding: 64px 40px 56px;
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .hero-location {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sea);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-location::before {
       content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--sand);
-      max-width: 200px;
+      display: inline-block;
+      width: 18px; height: 1px;
+      background: var(--sea);
     }
 
     h1 {
-      font-weight: 300;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      line-height: 1.1;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-    }
-
-    h1 em {
+      font-family: 'Fraunces', Georgia, serif;
       font-style: italic;
-      color: var(--terracotta);
-    }
-
-    .subtitle {
-      margin-top: 20px;
-      font-size: 1.15rem;
       font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      color: var(--ink);
+      max-width: 520px;
+    }
+
+    h1 span { font-style: normal; color: var(--sea); }
+
+    .hero-sub {
+      margin-top: 18px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--ink-mid);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      padding-bottom: 4px;
+    }
+
+    .guest-badge {
+      background: var(--sea-light);
+      color: var(--sea);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    .price-note {
+      font-size: 0.8rem;
       color: var(--ink-soft);
-      line-height: 1.6;
-      max-width: 480px;
+      font-weight: 300;
     }
 
-    /* ── MAIN LAYOUT ── */
+    .wave {
+      background: var(--sea-pale);
+      line-height: 0;
+    }
+
+    .wave svg { display: block; width: 100%; }
+
     main {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 0 40px 100px;
+      padding: 0 40px 80px;
     }
 
-    /* ── LEGEND ── */
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0 28px;
+      border-bottom: 1px solid var(--sand);
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.73rem;
+      color: var(--ink-soft);
+    }
+
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--sand);
+      flex-shrink: 0;
+    }
+
+    .status-dot.loading { background: var(--warm); animation: blink 1.2s ease-in-out infinite; }
+    .status-dot.ok      { background: var(--ok); }
+    .status-dot.error   { background: var(--err); }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
     .legend {
       display: flex;
-      gap: 28px;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--ink-soft);
+      gap: 7px;
+      font-size: 0.73rem;
+      color: var(--ink-mid);
     }
 
-    .legend-dot {
-      width: 10px;
-      height: 10px;
+    .legend-pip {
+      width: 9px; height: 9px;
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
-    .legend-dot.free { background: var(--available); }
-    .legend-dot.busy { background: var(--busy); }
+    .legend-pip.free { background: var(--ok); }
+    .legend-pip.busy { background: var(--sand); border: 1.5px solid #c0b8ac; }
 
-    /* ── CALENDAR GRID ── */
     .calendars {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 48px 40px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 36px 32px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
-    .month-block {}
+    .calendars.visible { opacity: 1; }
 
     .month-name {
-      font-family: 'DM Mono', monospace;
       font-size: 0.68rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
+      font-weight: 600;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--ink-soft);
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--sand);
+      color: var(--ink-mid);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--sea-light);
     }
 
     .weekdays {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      margin-bottom: 6px;
+      grid-template-columns: repeat(7,1fr);
+      margin-bottom: 3px;
     }
 
     .weekday {
-      font-family: 'DM Mono', monospace;
       font-size: 0.58rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
+      font-weight: 500;
+      letter-spacing: 0.05em;
       text-align: center;
-      color: var(--sand);
-      padding: 4px 0;
+      color: var(--ink-soft);
       text-transform: uppercase;
+      padding: 3px 0;
     }
 
     .days {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
+      grid-template-columns: repeat(7,1fr);
+      gap: 1px;
     }
 
     .day {
@@ -181,332 +246,319 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
-      font-weight: 300;
-      border-radius: 50%;
+      font-weight: 400;
+      border-radius: 4px;
       cursor: default;
-      position: relative;
-      transition: transform 0.15s ease;
+      transition: background 0.1s;
     }
 
     .day.empty { pointer-events: none; }
-
-    .day.past {
-      color: var(--sand);
-    }
+    .day.past  { color: #d0ccc6; }
 
     .day.free {
-      color: var(--available);
-      background: rgba(61, 107, 79, 0.08);
+      color: var(--ok);
+      background: rgba(46,139,87,0.07);
     }
 
-    .day.free:hover {
-      background: rgba(61, 107, 79, 0.18);
-      transform: scale(1.15);
-    }
+    .day.free:hover { background: rgba(46,139,87,0.16); }
 
     .day.busy {
-      color: var(--busy);
-      background: rgba(184, 92, 56, 0.08);
+      color: #b8b0a6;
+      background: var(--stone);
       text-decoration: line-through;
-      text-decoration-color: rgba(184, 92, 56, 0.4);
+      text-decoration-color: #c8c0b6;
     }
 
     .day.today {
-      box-shadow: 0 0 0 1.5px var(--today-ring);
-      font-weight: 400;
+      outline: 2px solid var(--sea);
+      outline-offset: -2px;
+      font-weight: 600;
     }
 
-    /* ── STATUS BAR ── */
-    .status-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 40px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--ink-soft);
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--sand);
-      transition: background 0.4s;
-    }
-
-    .status-dot.loading { background: var(--terracotta); animation: pulse 1.2s infinite; }
-    .status-dot.ok { background: var(--available); }
-    .status-dot.error { background: var(--busy); }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* ── CTA ── */
-    .cta-section {
-      margin-top: 64px;
+    .book-section {
+      margin-top: 52px;
       padding-top: 40px;
       border-top: 1px solid var(--sand);
-      display: flex;
-      align-items: flex-start;
-      gap: 48px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
 
-    .cta-text {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .cta-text h2 {
-      font-weight: 300;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    .cta-text p {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--ink-soft);
-      line-height: 1.6;
-    }
-
-    .cta-links {
+    .book-platform {
+      padding: 28px 32px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .cta-link {
+    .book-platform:first-child {
+      border-right: 1px solid var(--sand);
+    }
+
+    .platform-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .platform-rating {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .rating-score {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .rating-detail { display: flex; flex-direction: column; gap: 2px; }
+
+    .stars { display: flex; gap: 2px; }
+
+    .star { width: 11px; height: 11px; fill: var(--warm); }
+
+    .rating-count {
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+
+    .superb-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--sea);
+      letter-spacing: 0.04em;
+    }
+
+    .book-link {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 24px;
-      border: 1px solid var(--ink);
+      gap: 7px;
       text-decoration: none;
-      color: var(--ink);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: background 0.2s, color 0.2s;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--sea);
+      border-bottom: 1px solid var(--sea-light);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .cta-link:hover {
-      background: var(--ink);
-      color: var(--cream);
+    .book-link:hover { color: var(--ink); border-color: var(--ink); }
+
+    .book-link svg {
+      width: 12px; height: 12px;
+      stroke: currentColor; fill: none; stroke-width: 1.8;
     }
 
-    .cta-link.airbnb { border-color: var(--terracotta); color: var(--terracotta); }
-    .cta-link.airbnb:hover { background: var(--terracotta); color: var(--cream); }
+    footer { background: var(--sea-pale); border-top: 1px solid var(--sea-light); }
 
-    /* ── FOOTER ── */
-    footer {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
+    .footer-inner {
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 32px 40px;
-      border-top: 1px solid var(--sand);
+      padding: 18px 40px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 8px;
     }
 
-    footer span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
+    .footer-inner span {
+      font-size: 0.68rem;
       font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--sand);
+      color: var(--ink-soft);
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      header, main { padding-left: 24px; padding-right: 24px; }
-      header { padding-top: 48px; padding-bottom: 40px; }
-      .calendars { gap: 36px; }
-      .cta-section { flex-direction: column; gap: 24px; }
+    @media (max-width: 640px) {
+      .topbar { padding: 10px 20px; }
+      .hero { padding: 40px 24px 32px; grid-template-columns: 1fr; }
+      .hero-meta { align-items: flex-start; }
+      main { padding-left: 20px; padding-right: 20px; }
+      .book-section { grid-template-columns: 1fr; }
+      .book-platform:first-child { border-right: none; border-bottom: 1px solid var(--sand); }
+      .footer-inner { padding: 16px 20px; }
     }
-
-    /* ── FADE IN ── */
-    .calendars { opacity: 0; transition: opacity 0.5s ease; }
-    .calendars.visible { opacity: 1; }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="eyebrow">Short-term rental</div>
-  <h1>When the apartment<br>is <em>available</em></h1>
-  <p class="subtitle">Availability calendar synced with Airbnb and Booking.com.</p>
-</header>
+<div class="topbar">
+  <span>Cala de Finestrat</span>
+  <div class="topbar-dot"></div>
+  <span>Benidorm · España</span>
+  <div class="topbar-dot"></div>
+  <span>Short-term rental</span>
+</div>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-location">Alicante · Costa Blanca</div>
+      <h1>Heated pool,<br><span>seaview</span> apartment</h1>
+      <p class="hero-sub">4 guests · 1 bedroom · 2 beds · 1 bath</p>
+    </div>
+    <div class="hero-meta">
+      <span class="guest-badge">Guest favourite</span>
+      <span class="price-note">from €71 / night</span>
+    </div>
+  </div>
+</div>
+
+<div class="wave">
+  <svg viewBox="0 0 1000 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0 Q250 24 500 12 Q750 0 1000 18 L1000 0 Z" fill="#f2f9fc"/>
+  </svg>
+</div>
 
 <main>
-  <div class="status-bar">
-    <div class="status-dot loading" id="statusDot"></div>
-    <span id="statusText">Loading calendar…</span>
-  </div>
-
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot free"></div> Available</div>
-    <div class="legend-item"><div class="legend-dot busy"></div> Booked</div>
+  <div class="status-row">
+    <div class="status-left">
+      <div class="status-dot loading" id="statusDot"></div>
+      <span id="statusText">Loading calendar…</span>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-pip free"></div> Available</div>
+      <div class="legend-item"><div class="legend-pip busy"></div> Booked</div>
+    </div>
   </div>
 
   <div class="calendars" id="calendars"></div>
 
-  <div class="cta-section">
-    <div class="cta-text">
-      <h2>Book</h2>
-      <p>Prices and cancellation policies differ between platforms — check each listing for details.</p>
-    </div>
-    <div class="cta-links">
-      <!-- REPLACE href with your actual listing URLs -->
-      <a class="cta-link airbnb" href="https://www.airbnb.com" target="_blank" rel="noopener">
-        ↗ Airbnb
+  <div class="book-section">
+    <div class="book-platform">
+      <span class="platform-label">Airbnb</span>
+      <div class="platform-rating">
+        <span class="rating-score">4.96</span>
+        <div class="rating-detail">
+          <div class="stars">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <span class="rating-count">47 reviews</span>
+        </div>
+      </div>
+      <a class="book-link" href="https://www.airbnb.es/rooms/989569132185789067" target="_blank" rel="noopener">
+        View on Airbnb
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a class="cta-link" href="https://www.booking.com" target="_blank" rel="noopener">
-        ↗ Booking.com
+    </div>
+
+    <div class="book-platform">
+      <span class="platform-label">Booking.com</span>
+      <div class="platform-rating">
+        <span class="rating-score">9.4</span>
+        <div class="rating-detail">
+          <span class="superb-label">Superb</span>
+          <span class="rating-count">28 reviews</span>
+        </div>
+      </div>
+      <a class="book-link" href="https://www.booking.com/Share-exAoB1A" target="_blank" rel="noopener">
+        View on Booking.com
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
   </div>
 </main>
 
 <footer>
-  <span>Calendar refreshes every hour</span>
-  <span id="lastUpdate"></span>
+  <div class="footer-inner">
+    <span>Calendar synced with Airbnb &amp; Booking.com · refreshes every hour</span>
+    <span id="lastUpdate"></span>
+  </div>
 </footer>
 
 <script>
   const MONTHS_AHEAD = 4;
-  const WEEKDAYS = ['mo','tu','we','th','fr','sa','su'];
+  const WD = ['mo','tu','we','th','fr','sa','su'];
 
   async function loadBusyDates() {
     const dot = document.getElementById('statusDot');
     const txt = document.getElementById('statusText');
-
     try {
       const res = await fetch('/.netlify/functions/ical-proxy');
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
-
       dot.className = 'status-dot ok';
       txt.textContent = 'Up to date';
       document.getElementById('lastUpdate').textContent =
         'updated ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-
       return new Set(data.busyDates || []);
-    } catch (e) {
+    } catch(e) {
       dot.className = 'status-dot error';
       txt.textContent = 'Could not load calendar data';
-      console.error(e);
       return new Set();
     }
   }
 
-  function toISO(d) {
-    return d.toISOString().substring(0, 10);
-  }
+  function toISO(d) { return d.toISOString().substring(0,10); }
 
-  function renderCalendar(year, month, busyDates) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  function renderMonth(year, month, busy) {
+    const MN = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
+    const today = new Date(); today.setHours(0,0,0,0);
+    const wrap = document.createElement('div');
 
-    const monthNames = [
-      'January','February','March','April','May','June',
-      'July','August','September','October','November','December'
-    ];
+    const hd = document.createElement('div');
+    hd.className = 'month-name';
+    hd.textContent = MN[month] + ' ' + year;
+    wrap.appendChild(hd);
 
-    const block = document.createElement('div');
-    block.className = 'month-block';
-
-    // Header
-    const header = document.createElement('div');
-    header.className = 'month-name';
-    header.textContent = `${monthNames[month]} ${year}`;
-    block.appendChild(header);
-
-    // Weekday labels (Mon-first)
-    const wdRow = document.createElement('div');
-    wdRow.className = 'weekdays';
-    WEEKDAYS.forEach(d => {
+    const wr = document.createElement('div');
+    wr.className = 'weekdays';
+    WD.forEach(d => {
       const el = document.createElement('div');
-      el.className = 'weekday';
-      el.textContent = d;
-      wdRow.appendChild(el);
+      el.className = 'weekday'; el.textContent = d; wr.appendChild(el);
     });
-    block.appendChild(wdRow);
+    wrap.appendChild(wr);
 
-    // Days grid
     const grid = document.createElement('div');
     grid.className = 'days';
 
-    const firstDay = new Date(year, month, 1);
-    // Monday-first: Sun=7, Mon=1, ..., Sat=6
-    let startOffset = firstDay.getDay(); // 0=Sun
-    startOffset = startOffset === 0 ? 6 : startOffset - 1;
-
-    for (let i = 0; i < startOffset; i++) {
-      const el = document.createElement('div');
-      el.className = 'day empty';
-      grid.appendChild(el);
+    let off = new Date(year, month, 1).getDay();
+    off = off === 0 ? 6 : off - 1;
+    for (let i = 0; i < off; i++) {
+      const e = document.createElement('div'); e.className = 'day empty'; grid.appendChild(e);
     }
 
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let d = 1; d <= daysInMonth; d++) {
+    const dim = new Date(year, month+1, 0).getDate();
+    for (let d = 1; d <= dim; d++) {
       const date = new Date(year, month, d);
       const iso = toISO(date);
       const el = document.createElement('div');
-      el.className = 'day';
-      el.textContent = d;
-
-      if (date.getTime() === today.getTime()) {
-        el.classList.add('today');
-      }
-
-      if (date < today) {
-        el.classList.add('past');
-      } else if (busyDates.has(iso)) {
-        el.classList.add('busy');
-        el.title = 'Booked';
-      } else {
-        el.classList.add('free');
-        el.title = 'Available';
-      }
-
+      el.className = 'day'; el.textContent = d;
+      if (date.getTime() === today.getTime()) el.classList.add('today');
+      if (date < today)       el.classList.add('past');
+      else if (busy.has(iso)) { el.classList.add('busy'); el.title = 'Booked'; }
+      else                    { el.classList.add('free'); el.title = 'Available'; }
       grid.appendChild(el);
     }
 
-    block.appendChild(grid);
-    return block;
+    wrap.appendChild(grid);
+    return wrap;
   }
 
   async function init() {
-    const busyDates = await loadBusyDates();
-    const container = document.getElementById('calendars');
-    container.innerHTML = '';
-
+    const busy = await loadBusyDates();
+    const c = document.getElementById('calendars');
+    c.innerHTML = '';
     const now = new Date();
     for (let i = 0; i < MONTHS_AHEAD; i++) {
-      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
-      container.appendChild(renderCalendar(d.getFullYear(), d.getMonth(), busyDates));
+      const d = new Date(now.getFullYear(), now.getMonth()+i, 1);
+      c.appendChild(renderMonth(d.getFullYear(), d.getMonth(), busy));
     }
-
-    container.classList.add('visible');
+    c.classList.add('visible');
   }
 
   init();
-
-  // Refresh every hour
   setInterval(init, 3600 * 1000);
 </script>
 
