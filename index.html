@@ -276,23 +276,26 @@
       font-weight: 600;
     }
 
-    .book-section {
-      margin-top: 52px;
-      padding-top: 40px;
-      border-top: 1px solid var(--sand);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .book-section-hero {
+      display: flex;
+      gap: 0;
+      margin-top: 36px;
+      border-top: 1px solid var(--sea-light);
+      padding-top: 28px;
     }
 
-    .book-platform {
-      padding: 28px 32px;
+    .book-platform-hero {
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 14px;
+      padding-right: 32px;
     }
 
-    .book-platform:first-child {
-      border-right: 1px solid var(--sand);
+    .book-platform-hero + .book-platform-hero {
+      padding-right: 0;
+      padding-left: 32px;
+      border-left: 1px solid var(--sea-light);
     }
 
     .platform-label {
@@ -381,7 +384,8 @@
       .hero-meta { align-items: flex-start; }
       main { padding-left: 20px; padding-right: 20px; }
       .book-section { grid-template-columns: 1fr; }
-      .book-platform:first-child { border-right: none; border-bottom: 1px solid var(--sand); }
+      .book-section-hero { flex-direction: column; }
+      .book-platform-hero + .book-platform-hero { padding-left: 0; padding-top: 24px; border-left: none; border-top: 1px solid var(--sea-light); }
       .footer-inner { padding: 16px 20px; }
     }
   </style>
@@ -402,6 +406,42 @@
       <div class="hero-location">Alicante · Costa Blanca · Airport 40 min</div>
       <h1>Heated pool,<br><span>seaview</span> apartment</h1>
       <p class="hero-sub">Up to 3 adults + 1 child · 1 bedroom · 2 beds · 1 bath</p>
+      <div class="book-section-hero">
+        <div class="book-platform-hero">
+          <span class="platform-label">Airbnb</span>
+          <div class="platform-rating">
+            <span class="rating-score">4.96</span>
+            <div class="rating-detail">
+              <div class="stars">
+                <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="rating-count">47 reviews</span>
+            </div>
+          </div>
+          <a class="book-link" href="https://www.airbnb.es/rooms/989569132185789067" target="_blank" rel="noopener">
+            Book on Airbnb
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="book-platform-hero">
+          <span class="platform-label">Booking.com</span>
+          <div class="platform-rating">
+            <span class="rating-score">9.4</span>
+            <div class="rating-detail">
+              <span class="superb-label">Superb</span>
+              <span class="rating-count">28 reviews</span>
+            </div>
+          </div>
+          <a class="book-link" href="https://www.booking.com/Share-exAoB1A" target="_blank" rel="noopener">
+            Book on Booking.com
+            <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="hero-meta">
       <span class="guest-badge">Guest favourite</span>
@@ -429,43 +469,6 @@
 
   <div class="calendars" id="calendars"></div>
 
-  <div class="book-section">
-    <div class="book-platform">
-      <span class="platform-label">Airbnb</span>
-      <div class="platform-rating">
-        <span class="rating-score">4.96</span>
-        <div class="rating-detail">
-          <div class="stars">
-            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <span class="rating-count">47 reviews</span>
-        </div>
-      </div>
-      <a class="book-link" href="https://www.airbnb.es/rooms/989569132185789067" target="_blank" rel="noopener">
-        View on Airbnb
-        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-
-    <div class="book-platform">
-      <span class="platform-label">Booking.com</span>
-      <div class="platform-rating">
-        <span class="rating-score">9.4</span>
-        <div class="rating-detail">
-          <span class="superb-label">Superb</span>
-          <span class="rating-count">28 reviews</span>
-        </div>
-      </div>
-      <a class="book-link" href="https://www.booking.com/Share-exAoB1A" target="_blank" rel="noopener">
-        View on Booking.com
-        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
 </main>
 
 <footer>
