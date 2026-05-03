@@ -1,1 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apartment — availability</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --cream: #f5f0e8;
+      --ink: #1a1612;
+      --ink-soft: #4a3f35;
+      --sand: #d4c4a8;
+      --terracotta: #b85c38;
+      --available: #3d6b4f;
+      --busy: #b85c38;
+      --today-ring: #1a1612;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      padding: 80px 40px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--sand);
+      max-width: 200px;
+    }
+
+    h1 {
+      font-weight: 300;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--terracotta);
+    }
+
+    .subtitle {
+      margin-top: 20px;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-dot.free { background: var(--available); }
+    .legend-dot.busy { background: var(--busy); }
+
+    /* ── CALENDAR GRID ── */
+    .calendars {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 48px 40px;
+    }
+
+    .month-block {}
+
+    .month-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 6px;
+    }
+
+    .weekday {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-align: center;
+      color: var(--sand);
+      padding: 4px 0;
+      text-transform: uppercase;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 300;
+      border-radius: 50%;
+      cursor: default;
+      position: relative;
+      transition: transform 0.15s ease;
+    }
+
+    .day.empty { pointer-events: none; }
+
+    .day.past {
+      color: var(--sand);
+    }
+
+    .day.free {
+      color: var(--available);
+      background: rgba(61, 107, 79, 0.08);
+    }
+
+    .day.free:hover {
+      background: rgba(61, 107, 79, 0.18);
+      transform: scale(1.15);
+    }
+
+    .day.busy {
+      color: var(--busy);
+      background: rgba(184, 92, 56, 0.08);
+      text-decoration: line-through;
+      text-decoration-color: rgba(184, 92, 56, 0.4);
+    }
+
+    .day.today {
+      box-shadow: 0 0 0 1.5px var(--today-ring);
+      font-weight: 400;
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sand);
+      transition: background 0.4s;
+    }
+
+    .status-dot.loading { background: var(--terracotta); animation: pulse 1.2s infinite; }
+    .status-dot.ok { background: var(--available); }
+    .status-dot.error { background: var(--busy); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--sand);
+      display: flex;
+      align-items: flex-start;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .cta-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .cta-text h2 {
+      font-weight: 300;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .cta-text p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    .cta-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cta-link:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .cta-link.airbnb { border-color: var(--terracotta); color: var(--terracotta); }
+    .cta-link.airbnb:hover { background: var(--terracotta); color: var(--cream); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 40px;
+      border-top: 1px solid var(--sand);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--sand);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header, main { padding-left: 24px; padding-right: 24px; }
+      header { padding-top: 48px; padding-bottom: 40px; }
+      .calendars { gap: 36px; }
+      .cta-section { flex-direction: column; gap: 24px; }
+    }
+
+    /* ── FADE IN ── */
+    .calendars { opacity: 0; transition: opacity 0.5s ease; }
+    .calendars.visible { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Short-term rental</div>
+  <h1>When the apartment<br>is <em>available</em></h1>
+  <p class="subtitle">Availability calendar synced with Airbnb and Booking.com.</p>
+</header>
+
+<main>
+  <div class="status-bar">
+    <div class="status-dot loading" id="statusDot"></div>
+    <span id="statusText">Loading calendar…</span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot free"></div> Available</div>
+    <div class="legend-item"><div class="legend-dot busy"></div> Booked</div>
+  </div>
+
+  <div class="calendars" id="calendars"></div>
+
+  <div class="cta-section">
+    <div class="cta-text">
+      <h2>Book</h2>
+      <p>Prices and cancellation policies differ between platforms — check each listing for details.</p>
+    </div>
+    <div class="cta-links">
+      <!-- REPLACE href with your actual listing URLs -->
+      <a class="cta-link airbnb" href="https://www.airbnb.com" target="_blank" rel="noopener">
+        ↗ Airbnb
+      </a>
+      <a class="cta-link" href="https://www.booking.com" target="_blank" rel="noopener">
+        ↗ Booking.com
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Calendar refreshes every hour</span>
+  <span id="lastUpdate"></span>
+</footer>
+
+<script>
+  const MONTHS_AHEAD = 4;
+  const WEEKDAYS = ['mo','tu','we','th','fr','sa','su'];
+
+  async function loadBusyDates() {
+    const dot = document.getElementById('statusDot');
+    const txt = document.getElementById('statusText');
+
+    try {
+      const res = await fetch('/.netlify/functions/ical-proxy');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+
+      dot.className = 'status-dot ok';
+      txt.textContent = 'Up to date';
+      document.getElementById('lastUpdate').textContent =
+        'updated ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
+      return new Set(data.busyDates || []);
+    } catch (e) {
+      dot.className = 'status-dot error';
+      txt.textContent = 'Could not load calendar data';
+      console.error(e);
+      return new Set();
+    }
+  }
+
+  function toISO(d) {
+    return d.toISOString().substring(0, 10);
+  }
+
+  function renderCalendar(year, month, busyDates) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const monthNames = [
+      'January','February','March','April','May','June',
+      'July','August','September','October','November','December'
+    ];
+
+    const block = document.createElement('div');
+    block.className = 'month-block';
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'month-name';
+    header.textContent = `${monthNames[month]} ${year}`;
+    block.appendChild(header);
+
+    // Weekday labels (Mon-first)
+    const wdRow = document.createElement('div');
+    wdRow.className = 'weekdays';
+    WEEKDAYS.forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'weekday';
+      el.textContent = d;
+      wdRow.appendChild(el);
+    });
+    block.appendChild(wdRow);
+
+    // Days grid
+    const grid = document.createElement('div');
+    grid.className = 'days';
+
+    const firstDay = new Date(year, month, 1);
+    // Monday-first: Sun=7, Mon=1, ..., Sat=6
+    let startOffset = firstDay.getDay(); // 0=Sun
+    startOffset = startOffset === 0 ? 6 : startOffset - 1;
+
+    for (let i = 0; i < startOffset; i++) {
+      const el = document.createElement('div');
+      el.className = 'day empty';
+      grid.appendChild(el);
+    }
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const date = new Date(year, month, d);
+      const iso = toISO(date);
+      const el = document.createElement('div');
+      el.className = 'day';
+      el.textContent = d;
+
+      if (date.getTime() === today.getTime()) {
+        el.classList.add('today');
+      }
+
+      if (date < today) {
+        el.classList.add('past');
+      } else if (busyDates.has(iso)) {
+        el.classList.add('busy');
+        el.title = 'Booked';
+      } else {
+        el.classList.add('free');
+        el.title = 'Available';
+      }
+
+      grid.appendChild(el);
+    }
+
+    block.appendChild(grid);
+    return block;
+  }
+
+  async function init() {
+    const busyDates = await loadBusyDates();
+    const container = document.getElementById('calendars');
+    container.innerHTML = '';
+
+    const now = new Date();
+    for (let i = 0; i < MONTHS_AHEAD; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      container.appendChild(renderCalendar(d.getFullYear(), d.getMonth(), busyDates));
+    }
+
+    container.classList.add('visible');
+  }
+
+  init();
+
+  // Refresh every hour
+  setInterval(init, 3600 * 1000);
+</script>
+
+</body>
+</html>
