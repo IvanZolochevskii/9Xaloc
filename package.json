@@ -1,0 +1,14 @@
+{
+  "name": "calendar9xaloc",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cala de Finestrat apartment — availability calendar and guest reviews",
+  "dependencies": {
+    "@netlify/database": "^2.0.0",
+    "drizzle-orm": "^1.0.0-beta.22"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.0",
+    "drizzle-kit": "^1.0.0-beta.22"
+  }
+}

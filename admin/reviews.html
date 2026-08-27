@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Review moderation · Cala de Finestrat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sea:       #1a7fa0;
+      --sea-light: #e8f4f8;
+      --sea-pale:  #f2f9fc;
+      --white:     #ffffff;
+      --stone:     #f7f5f1;
+      --sand:      #e8e2d8;
+      --ink:       #16202a;
+      --ink-mid:   #3d4f5c;
+      --ink-soft:  #7a8f9e;
+      --warm:      #c87941;
+      --ok:        #2e8b57;
+      --err:       #c0392b;
+    }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--stone);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 40px 20px 80px;
+    }
+
+    .shell { max-width: 780px; margin: 0 auto; }
+
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .sub {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--ink-soft);
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--sand);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    input[type="password"] {
+      font-family: inherit;
+      font-size: 0.95rem;
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid var(--sand);
+      border-radius: 8px;
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    input[type="password"]:focus {
+      outline: none;
+      border-color: var(--sea);
+      box-shadow: 0 0 0 3px rgba(26, 127, 160, 0.12);
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 20px;
+      padding: 9px 18px;
+      border: 1px solid var(--sand);
+      background: var(--white);
+      color: var(--ink-mid);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    button:hover { border-color: var(--ink); color: var(--ink); }
+    button[disabled] { opacity: 0.5; cursor: progress; }
+
+    button.primary { background: var(--sea); border-color: var(--sea); color: var(--white); }
+    button.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--white); }
+    button.approve { background: var(--ok); border-color: var(--ok); color: var(--white); }
+    button.approve:hover { background: #236944; border-color: #236944; color: var(--white); }
+    button.danger { color: var(--err); border-color: #eccac6; }
+    button.danger:hover { background: rgba(192, 57, 43, 0.07); border-color: var(--err); color: var(--err); }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tabs button.active { background: var(--sea-light); border-color: var(--sea); color: var(--sea); }
+
+    .review-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .review-name { font-size: 1rem; font-weight: 500; }
+    .review-meta { font-size: 0.72rem; color: var(--ink-soft); font-weight: 300; }
+    .review-stars { color: var(--warm); font-size: 0.9rem; letter-spacing: 1px; }
+
+    .badge {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 12px;
+      background: var(--stone);
+      color: var(--ink-soft);
+    }
+
+    .badge.pending  { background: rgba(200, 121, 65, 0.12); color: var(--warm); }
+    .badge.approved { background: rgba(46, 139, 87, 0.12); color: var(--ok); }
+    .badge.rejected { background: rgba(192, 57, 43, 0.1); color: var(--err); }
+
+    .review-title { font-size: 0.95rem; font-weight: 500; margin-bottom: 6px; }
+
+    .review-body {
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-mid);
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
+
+    .actions { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+
+    .msg {
+      font-size: 0.85rem;
+      font-weight: 300;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .msg.err { background: rgba(192, 57, 43, 0.08); color: var(--err); }
+    .msg.ok  { background: rgba(46, 139, 87, 0.09); color: var(--ok); }
+    .msg[hidden] { display: none; }
+
+    .empty { font-size: 0.9rem; font-weight: 300; color: var(--ink-soft); }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <h1>Review moderation</h1>
+    <p class="sub">Approve a review to publish it on the site. Rejected reviews stay hidden.</p>
+
+    <p class="msg err" id="msg" hidden></p>
+
+    <form class="card" id="loginForm" hidden>
+      <label for="password">Moderation password</label>
+      <input type="password" id="password" autocomplete="current-password" required />
+      <div class="actions">
+        <button class="primary" type="submit">Sign in</button>
+      </div>
+    </form>
+
+    <div id="panel" hidden>
+      <div class="tabs" id="tabs">
+        <button type="button" data-status="pending" class="active">Pending</button>
+        <button type="button" data-status="approved">Published</button>
+        <button type="button" data-status="rejected">Rejected</button>
+        <button type="button" data-status="all">All</button>
+        <button type="button" id="signOut" style="margin-left:auto" hidden>Sign out</button>
+      </div>
+      <div id="list"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const KEY = 'reviewsAdminPassword';
+      const $ = (id) => document.getElementById(id);
+      const msg = $('msg');
+      let password = sessionStorage.getItem(KEY) || '';
+      let filter = 'pending';
+      let cache = [];
+
+      function show(text, kind) {
+        msg.textContent = text;
+        msg.className = 'msg ' + (kind || 'err');
+        msg.hidden = false;
+      }
+
+      function hideMsg() { msg.hidden = true; }
+
+      async function api(path, options) {
+        const config = Object.assign({ headers: {} }, options || {});
+        const headers = { 'Content-Type': 'application/json' };
+        if (password) headers.Authorization = 'Bearer ' + password;
+        config.headers = Object.assign(headers, config.headers);
+        const res = await fetch('/api/admin/reviews' + path, config);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const error = new Error(data.error || 'Request failed');
+          error.status = res.status;
+          throw error;
+        }
+        return data;
+      }
+
+      function stars(rating) {
+        let out = '';
+        for (let i = 0; i < 5; i++) out += i < rating ? '★' : '☆';
+        return out;
+      }
+
+      function dateLabel(value) {
+        if (!value) return '';
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return '';
+        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      function textNode(tag, className, text) {
+        const node = document.createElement(tag);
+        node.className = className;
+        node.textContent = text;
+        return node;
+      }
+
+      function actionButton(label, className, onClick) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = className;
+        button.textContent = label;
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+          try {
+            await onClick();
+            hideMsg();
+            await load();
+          } catch (error) {
+            show(error.message);
+            button.disabled = false;
+          }
+        });
+        return button;
+      }
+
+      function render() {
+        const list = $('list');
+        list.innerHTML = '';
+
+        const rows = filter === 'all' ? cache : cache.filter((row) => row.status === filter);
+
+        if (!rows.length) {
+          list.appendChild(textNode('p', 'empty', 'Nothing here.'));
+          return;
+        }
+
+        rows.forEach((row) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+
+          const head = document.createElement('div');
+          head.className = 'review-head';
+          head.appendChild(textNode('span', 'review-name', row.authorName));
+          head.appendChild(textNode('span', 'review-stars', stars(row.rating)));
+          head.appendChild(textNode('span', 'badge ' + row.status, row.status));
+
+          const meta = [];
+          if (row.country) meta.push(row.country);
+          if (row.stayMonth) meta.push('stayed ' + row.stayMonth);
+          if (row.authorEmail) meta.push(row.authorEmail);
+          const submitted = dateLabel(row.createdAt);
+          if (submitted) meta.push('sent ' + submitted);
+          head.appendChild(textNode('span', 'review-meta', meta.join(' · ')));
+          card.appendChild(head);
+
+          if (row.title) card.appendChild(textNode('p', 'review-title', row.title));
+          card.appendChild(textNode('p', 'review-body', row.body));
+
+          const actions = document.createElement('div');
+          actions.className = 'actions';
+
+          if (row.status !== 'approved') {
+            actions.appendChild(actionButton('Approve', 'approve', () =>
+              api('/' + row.id, { method: 'PATCH', body: JSON.stringify({ status: 'approved' }) })));
+          }
+          if (row.status !== 'rejected') {
+            actions.appendChild(actionButton('Reject', '', () =>
+              api('/' + row.id, { method: 'PATCH', body: JSON.stringify({ status: 'rejected' }) })));
+          }
+          if (row.status !== 'pending') {
+            actions.appendChild(actionButton('Back to pending', '', () =>
+              api('/' + row.id, { method: 'PATCH', body: JSON.stringify({ status: 'pending' }) })));
+          }
+          actions.appendChild(actionButton('Delete', 'danger', () => {
+            if (!window.confirm('Delete this review permanently?')) {
+              return Promise.resolve();
+            }
+            return api('/' + row.id, { method: 'DELETE' });
+          }));
+
+          card.appendChild(actions);
+          list.appendChild(card);
+        });
+      }
+
+      async function load() {
+        const data = await api('', { method: 'GET' });
+        cache = data.reviews || [];
+        const counts = data.counts || {};
+        Array.prototype.forEach.call($('tabs').querySelectorAll('[data-status]'), (tab) => {
+          const status = tab.dataset.status;
+          const base = status === 'pending' ? 'Pending'
+            : status === 'approved' ? 'Published'
+            : status === 'rejected' ? 'Rejected' : 'All';
+          const total = status === 'all' ? cache.length : (counts[status] || 0);
+          tab.textContent = base + ' (' + total + ')';
+          tab.classList.toggle('active', status === filter);
+        });
+        render();
+      }
+
+      function signOut() {
+        password = '';
+        sessionStorage.removeItem(KEY);
+        cache = [];
+        $('panel').hidden = true;
+        $('loginForm').hidden = false;
+        $('password').value = '';
+      }
+
+      // The moderation password is optional. Open the list straight away and only fall back
+      // to the sign-in form if the function actually answers 401.
+      async function start(afterSignIn) {
+        try {
+          await load();
+          if (password) sessionStorage.setItem(KEY, password);
+          hideMsg();
+          $('loginForm').hidden = true;
+          $('panel').hidden = false;
+          $('signOut').hidden = !password;
+        } catch (error) {
+          if (error.status === 401) {
+            password = '';
+            sessionStorage.removeItem(KEY);
+            $('password').value = '';
+            $('loginForm').hidden = false;
+            $('panel').hidden = true;
+            if (afterSignIn) show('Incorrect password.');
+          } else {
+            show(error.message);
+          }
+        }
+      }
+
+      $('loginForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        password = $('password').value;
+        start(true);
+      });
+
+      $('signOut').addEventListener('click', signOut);
+
+      Array.prototype.forEach.call($('tabs').querySelectorAll('[data-status]'), (tab) => {
+        tab.addEventListener('click', () => {
+          filter = tab.dataset.status;
+          Array.prototype.forEach.call($('tabs').querySelectorAll('[data-status]'), (other) => {
+            other.classList.toggle('active', other === tab);
+          });
+          render();
+        });
+      });
+
+      start(false);
+    })();
+  </script>
+</body>
+</html>

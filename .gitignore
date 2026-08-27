@@ -1,0 +1,6 @@
+node_modules
+deno.lock
+.DS_Store
+
+# Netlify CLI local state, dev artifacts, and agent context files
+.netlify
