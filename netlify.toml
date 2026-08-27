@@ -7,3 +7,59 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+
+# The moderation screen should never be indexed or embedded. These headers do the job
+# without naming the path in robots.txt, which is a public file.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/api/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"
+
+[[redirects]]
+  from = "/admin/reviews"
+  to = "/admin/reviews.html"
+  status = 200
+
+# publish = "." means the repo root is served, so keep source and dependencies private.
+[[redirects]]
+  from = "/db/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/node_modules/*"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package-lock.json"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/drizzle.config.ts"
+  to = "/"
+  status = 404
+  force = true
