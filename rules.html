@@ -1,130 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>House rules &amp; tips · Cala de Finestrat</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Welcome guide · Cala de Finestrat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+<style>
+  /* Phone-first guest guide: one narrow column, sticky language bar, jump tiles, then one block per topic. */
+  :root {
+    --sea: #1a7fa0;
+    --sea-mid: #2a9dc2;
+    --sea-light: #e8f4f8;
+    --sea-pale: #f2f9fc;
+    --white: #ffffff;
+    --sand: #e8e2d8;
+    --ink: #16202a;
+    --ink-mid: #3d4f5c;
+    --ink-soft: #62768a;
+    --warm: #c87941;
+    --ok: #2e8b57;
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Outfit', system-ui, sans-serif;
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--body); background: var(--white); color: var(--ink); overflow-x: hidden; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .langbar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: rgba(255,255,255,0.96);
+    border-bottom: 1px solid var(--sea-light);
+    padding: 10px 16px;
+  }
+  .langs { max-width: 480px; margin: 0 auto; display: flex; justify-content: space-between; gap: 4px; }
+  .flag {
+    flex: 1 1 0; min-width: 0; max-width: 44px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: 0; border-radius: 8px; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .flag svg { width: 30px; height: 21px; border-radius: 3px; box-shadow: 0 0 0 1px rgba(22,32,42,0.14); display: block; }
+  .flag[aria-pressed="true"] { background: var(--sea-light); box-shadow: inset 0 0 0 2px var(--sea); }
+  .flag:focus-visible { outline: 2px solid var(--sea); outline-offset: 2px; }
 
-    :root {
-      --sea:       #1a7fa0;
-      --sea-mid:   #2a9dc2;
-      --sea-light: #e8f4f8;
-      --sea-pale:  #f2f9fc;
-      --white:     #ffffff;
-      --stone:     #f7f5f1;
-      --sand:      #e8e2d8;
-      --ink:       #16202a;
-      --ink-mid:   #3d4f5c;
-      --ink-soft:  #7a8f9e;
-      --warm:      #c87941;
-      --ok:        #2e8b57;
-      --err:       #c0392b;
-    }
+  main { max-width: 480px; margin: 0 auto; padding: 0 20px 56px; }
 
-    html { font-size: 16px; }
+  .back {
+    display: inline-block; margin: 18px 0 0; font-size: 0.8rem; font-weight: 500;
+    color: var(--sea); text-decoration: none; padding: 6px 0;
+  }
+  h1 {
+    font-family: var(--display); font-style: italic; font-weight: 300;
+    font-size: 2.6rem; line-height: 1.1; margin-top: 10px; text-wrap: balance;
+  }
+  .intro { margin-top: 14px; font-size: 1rem; font-weight: 300; line-height: 1.55; color: var(--ink-mid); }
 
-    body {
-      font-family: 'Outfit', system-ui, sans-serif;
-      background: var(--white);
-      color: var(--ink);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+  .tiles { margin-top: 26px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .tile {
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    padding: 12px 2px 10px; border-radius: 12px; background: var(--sea-pale);
+    color: var(--ink-mid); text-decoration: none; font-size: 0.7rem; font-weight: 500;
+    text-align: center; line-height: 1.15; overflow-wrap: anywhere;
+  }
+  .tile svg { width: 24px; height: 24px; stroke: var(--sea); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .tile:active { background: var(--sea-light); }
 
+  .blk { padding-top: 34px; scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 64px); }
+  .blk + .blk { margin-top: 34px; border-top: 1px solid var(--sand); }
+  .blk-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .ico {
+    flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--sea-light);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ico svg { width: 20px; height: 20px; stroke: var(--sea); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  h2 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.01em; }
+  p { font-size: 0.97rem; font-weight: 300; line-height: 1.6; color: var(--ink-mid); }
+  p + p { margin-top: 12px; }
+  p b { font-weight: 600; color: var(--ink); }
 
-    .topbar { background: var(--sea); color: white; padding: 10px 40px; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
-    .topbar a { color: white; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-    .topbar a:hover { text-decoration: underline; }
-    .hero-wrap { background: var(--sea-pale); }
-    .hero { max-width: 1000px; margin: 0 auto; padding: 56px 40px 48px; }
-    h1 { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 300; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
-    h1 span { font-style: normal; color: var(--sea); }
-    .hero-sub { margin-top: 14px; font-size: 0.95rem; font-weight: 300; color: var(--ink-mid); }
-    main { max-width: 1000px; margin: 0 auto; padding: 40px 40px 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px 48px; }
-    h2 { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mid); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--sea-light); }
-    ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    li { font-size: 0.9rem; font-weight: 300; color: var(--ink-mid); line-height: 1.5; padding-left: 16px; position: relative; }
-    li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--sea-mid); }
-    li strong { font-weight: 500; color: var(--ink); }
-    footer { background: var(--sea-pale); border-top: 1px solid var(--sea-light); }
-    .footer-inner { max-width: 1000px; margin: 0 auto; padding: 18px 40px; font-size: 0.68rem; font-weight: 300; color: var(--ink-soft); }
-    @media (max-width: 640px) {
-      .topbar { padding: 10px 20px; }
-      .hero { padding: 40px 24px 32px; }
-      main { padding: 32px 20px 56px; }
-      .footer-inner { padding: 16px 20px; }
-    }
-  </style>
+  .fact {
+    margin: 16px 0; padding: 14px 16px; border-radius: 12px; background: var(--sea-pale);
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  }
+  .fact-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .fact-val { font-family: var(--body); font-weight: 300; font-size: 2.3rem; line-height: 1; color: var(--ink); text-align: right; }
+  .fact-val.sm { font-size: 1.35rem; }
+
+  figure.map { margin-top: 16px; }
+  figure.map img { display: block; width: 100%; height: auto; border-radius: 12px; }
+  figcaption { margin-top: 8px; font-size: 0.75rem; color: var(--ink-soft); }
+
+  .cred { margin-top: 4px; display: flex; flex-direction: column; gap: 10px; }
+  .cred-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 12px 12px 12px 16px; border-radius: 12px; background: var(--sea-pale);
+  }
+  .cred-text { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .cred-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .cred-val { font-size: 1.05rem; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; user-select: all; -webkit-user-select: all; }
+  .copy {
+    flex: none; min-width: 84px; padding: 10px 14px; border: 1.5px solid var(--sea); border-radius: 10px;
+    background: var(--white); color: var(--sea); font: 500 0.8rem var(--body); cursor: pointer;
+  }
+  .copy.done { background: var(--sea); color: var(--white); }
+  .copy:focus-visible { outline: 2px solid var(--sea); outline-offset: 2px; }
+  .qr-wrap { margin-top: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .qr { width: 168px; height: 168px; border-radius: 10px; box-shadow: 0 0 0 1px var(--sand); }
+  .qr-wrap p { font-size: 0.85rem; text-align: center; }
+
+  .app-list { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .app-row {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px;
+    background: var(--sea-pale); color: var(--ink); text-decoration: none; font-size: 1rem; font-weight: 500;
+  }
+  .app-row svg { flex: none; width: 24px; height: 24px; stroke: var(--sea); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .app-row .app-name { flex: 1; min-width: 0; }
+  .app-row .soon { flex: none; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); }
+  a.app-row:active { background: var(--sea-light); }
+
+  .wa {
+    margin-top: 18px; display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 15px 18px; border-radius: 14px; background: var(--sea); color: var(--white);
+    text-decoration: none; font-size: 1rem; font-weight: 600;
+  }
+  .wa svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .wa:active { background: var(--ink); }
+
+  .bye { margin-top: 38px; padding: 20px; border-radius: 14px; background: var(--sea-pale); }
+  .bye p:last-child { font-family: var(--display); font-style: italic; font-weight: 300; font-size: 1.25rem; line-height: 1.35; color: var(--ink); }
+</style>
 </head>
 <body>
 
-<div class="topbar">
-  <a href="index.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Back to apartment
-  </a>
-</div>
-
-<div class="hero-wrap">
-  <div class="hero">
-    <h1>House rules<br>&amp; <span>tips</span></h1>
-    <p class="hero-sub">A few things that help everyone enjoy their stay.</p>
-  </div>
-</div>
+<header class="langbar">
+  <div class="langs" role="group" aria-label="Language"><button type="button" class="flag" data-lang="en" aria-label="English" title="English" aria-pressed="false"><svg viewBox="0 0 60 30" preserveAspectRatio="none" aria-hidden="true"><rect width="60" height="30" fill="#012169"/><path d="M0 0L60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0L60 30M60 0L0 30" stroke="#C8102E" stroke-width="2.4"/><path d="M30 0V30M0 15H60" stroke="#fff" stroke-width="10"/><path d="M30 0V30M0 15H60" stroke="#C8102E" stroke-width="6"/></svg></button><button type="button" class="flag" data-lang="es" aria-label="Español" title="Español" aria-pressed="false"><svg viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"/><rect y="0.5" width="3" height="1" fill="#F1BF00"/></svg></button><button type="button" class="flag" data-lang="nl" aria-label="Nederlands" title="Nederlands" aria-pressed="false"><svg viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true"><rect width="3" height="2" fill="#AE1C28"/><rect y="0.667" width="3" height="1.333" fill="#fff"/><rect y="1.333" width="3" height="0.667" fill="#21468B"/></svg></button><button type="button" class="flag" data-lang="fr" aria-label="Français" title="Français" aria-pressed="false"><svg viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true"><rect width="3" height="2" fill="#ED2939"/><rect width="2" height="2" fill="#fff"/><rect width="1" height="2" fill="#002395"/></svg></button><button type="button" class="flag" data-lang="ru" aria-label="Русский" title="Русский" aria-pressed="false"><svg viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1.333" fill="#0039A6"/><rect width="3" height="0.667" fill="#fff"/></svg></button><button type="button" class="flag" data-lang="no" aria-label="Norsk" title="Norsk" aria-pressed="false"><svg viewBox="0 0 22 16" preserveAspectRatio="none" aria-hidden="true"><rect width="22" height="16" fill="#BA0C2F"/><path d="M8 0V16M0 8H22" stroke="#fff" stroke-width="4"/><path d="M8 0V16M0 8H22" stroke="#00205B" stroke-width="2"/></svg></button><button type="button" class="flag" data-lang="sv" aria-label="Svenska" title="Svenska" aria-pressed="false"><svg viewBox="0 0 16 10" preserveAspectRatio="none" aria-hidden="true"><rect width="16" height="10" fill="#006AA7"/><path d="M6 0V10M0 5H16" stroke="#FECC02" stroke-width="2"/></svg></button><button type="button" class="flag" data-lang="fi" aria-label="Suomi" title="Suomi" aria-pressed="false"><svg viewBox="0 0 18 11" preserveAspectRatio="none" aria-hidden="true"><rect width="18" height="11" fill="#fff"/><path d="M6.5 0V11M0 5.5H18" stroke="#003580" stroke-width="3"/></svg></button><button type="button" class="flag" data-lang="de" aria-label="Deutsch" title="Deutsch" aria-pressed="false"><svg viewBox="0 0 5 3" preserveAspectRatio="none" aria-hidden="true"><rect width="5" height="3" fill="#FFCE00"/><rect width="5" height="2" fill="#DD0000"/><rect width="5" height="1" fill="#000"/></svg></button></div>
+</header>
 
 <main>
-  <section>
-    <h2>House rules</h2>
-    <ul>
-      <li><strong>Quiet hours</strong> from 22:00 to 08:00. Neighbours live here all year round.</li>
-      <li><strong>No smoking</strong> inside the apartment. Please use the balcony.</li>
-      <li><strong>No parties</strong> or events. Only registered guests may stay overnight.</li>
-      <li><strong>Pets</strong> are not allowed unless agreed in advance.</li>
-      <li>Please <strong>keep the keys</strong> safe and close all windows and the door when you leave.</li>
-      <li>Report any damage or breakage to the host as soon as you notice it.</li>
-    </ul>
+  <a class="back" href="index.html">&#8249; <span data-i18n="back"></span></a>
+  <h1 data-i18n="title"></h1>
+  <p class="intro" data-i18n="intro"></p>
+
+  <nav class="tiles"><a class="tile" href="#parking"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9.5 17V7.5h3a2.6 2.6 0 0 1 0 5.2h-3"/></svg><span data-i18n="n_parking"></span></a><a class="tile" href="#pool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 13V5.5a2 2 0 0 1 4 0M15 13V5.5a2 2 0 0 1 4 0M9 9h6"/><path d="M3 17c1.5 0 1.5-1.2 3-1.2s1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.5-1.2 3-1.2M3 21c1.5 0 1.5-1.2 3-1.2s1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.5-1.2 3-1.2"/></svg><span data-i18n="n_pool"></span></a><a class="tile" href="#wifi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.7 16a5 5 0 0 1 6.6 0"/><circle cx="12" cy="19.4" r="0.9"/></svg><span data-i18n="n_wifi"></span></a><a class="tile" href="#tv"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span data-i18n="n_tv"></span></a><a class="tile" href="#appliances"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></svg><span data-i18n="n_appliances"></span></a><a class="tile" href="#babies"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v15M20 5v15M4 9h16M4 15h16M8.7 9v6M12 9v6M15.3 9v6"/></svg><span data-i18n="n_babies"></span></a><a class="tile" href="#rules"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg><span data-i18n="n_rules"></span></a><a class="tile" href="#checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h5v16h-5M3 12h11M10 8l4 4-4 4"/></svg><span data-i18n="n_checkout"></span></a><a class="tile" href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span data-i18n="n_contact"></span></a></nav>
+
+  <section class="blk" id="parking">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9.5 17V7.5h3a2.6 2.6 0 0 1 0 5.2h-3"/></svg></span><h2 data-i18n="parking_h"></h2></div>
+    <p data-i18n="parking_1"></p>
+    <p data-i18n="parking_2"></p>
+    <div class="fact"><span class="fact-label" data-i18n="spot"></span><span class="fact-val">86</span></div>
+    <p data-i18n="parking_3"></p>
+    <figure class="map">
+      <img src="assets/route-map.jpg" alt="" width="900" height="383" />
+      <figcaption data-i18n="map_cap"></figcaption>
+    </figure>
   </section>
 
-  <section>
-    <h2>Pool &amp; community areas</h2>
-    <ul>
-      <li>Shower before entering the pool. <strong>No glass</strong> in the pool area.</li>
-      <li>Follow the opening hours and rules posted by the residential complex.</li>
-      <li>Do not leave towels or belongings on the pool loungers overnight.</li>
-      <li>Children must be supervised by an adult at all times.</li>
-    </ul>
+  <section class="blk" id="pool">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 13V5.5a2 2 0 0 1 4 0M15 13V5.5a2 2 0 0 1 4 0M9 9h6"/><path d="M3 17c1.5 0 1.5-1.2 3-1.2s1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.5-1.2 3-1.2M3 21c1.5 0 1.5-1.2 3-1.2s1.5 1.2 3 1.2 1.5-1.2 3-1.2 1.5 1.2 3 1.2 1.5-1.2 3-1.2"/></svg></span><h2 data-i18n="pool_h"></h2></div>
+    <div class="fact"><span class="fact-label" data-i18n="pool_h"></span><span class="fact-val sm" data-i18n="pool_hours"></span></div>
+    <p data-i18n="pool_1"></p>
+    <p data-i18n="pool_2"></p>
   </section>
 
-  <section>
-    <h2>Tips for using the apartment</h2>
-    <ul>
-      <li><strong>Air conditioning:</strong> switch it off when you open the windows or go out.</li>
-      <li><strong>Water and electricity:</strong> please use them sensibly, especially in summer.</li>
-      <li><strong>Rubbish:</strong> sort it and take it to the containers outside the building, not to the balcony.</li>
-      <li><strong>Toilet:</strong> flush only paper. Wipes and hygiene products block the pipes.</li>
-      <li>Leave the kitchen tidy and the dishes washed before check-out.</li>
-    </ul>
+  <section class="blk" id="wifi">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.7 16a5 5 0 0 1 6.6 0"/><circle cx="12" cy="19.4" r="0.9"/></svg></span><h2 data-i18n="wifi_h"></h2></div>
+    <div class="cred">
+      <div class="cred-row">
+        <div class="cred-text"><span class="cred-label" data-i18n="network"></span><span class="cred-val" id="v-net">Avatel_5G-sMhG</span></div>
+        <button type="button" class="copy" data-copy="v-net" data-i18n="copy"></button>
+      </div>
+      <div class="cred-row">
+        <div class="cred-text"><span class="cred-label" data-i18n="password"></span><span class="cred-val" id="v-pwd">apTVSBE8</span></div>
+        <button type="button" class="copy" data-copy="v-pwd" data-i18n="copy"></button>
+      </div>
+    </div>
+    <div class="qr-wrap"><svg class="qr" viewBox="-2 -2 33 33" role="img" aria-label="Wi-Fi QR code" shape-rendering="crispEdges"><rect x="-2" y="-2" width="33" height="33" fill="#fff"/><path d="M0 0h7v1h-7zM9 0h2v1h-2zM12 0h1v1h-1zM15 0h5v1h-5zM22 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h2v1h-2zM14 1h2v1h-2zM20 1h1v1h-1zM22 1h1v1h-1zM28 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h1v1h-1zM10 2h1v1h-1zM12 2h1v1h-1zM14 2h1v1h-1zM19 2h2v1h-2zM22 2h1v1h-1zM24 2h3v1h-3zM28 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM11 3h1v1h-1zM13 3h1v1h-1zM15 3h1v1h-1zM17 3h1v1h-1zM22 3h1v1h-1zM24 3h3v1h-3zM28 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h2v1h-2zM13 4h4v1h-4zM20 4h1v1h-1zM22 4h1v1h-1zM24 4h3v1h-3zM28 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM15 5h4v1h-4zM20 5h1v1h-1zM22 5h1v1h-1zM28 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h7v1h-7zM8 7h1v1h-1zM11 7h2v1h-2zM20 7h1v1h-1zM0 8h1v1h-1zM2 8h5v1h-5zM9 8h1v1h-1zM11 8h3v1h-3zM15 8h2v1h-2zM20 8h1v1h-1zM22 8h5v1h-5zM2 9h2v1h-2zM7 9h1v1h-1zM10 9h1v1h-1zM13 9h7v1h-7zM22 9h1v1h-1zM24 9h1v1h-1zM26 9h2v1h-2zM5 10h2v1h-2zM9 10h5v1h-5zM15 10h1v1h-1zM20 10h4v1h-4zM25 10h1v1h-1zM2 11h4v1h-4zM8 11h1v1h-1zM10 11h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM19 11h4v1h-4zM24 11h1v1h-1zM27 11h2v1h-2zM1 12h1v1h-1zM3 12h1v1h-1zM6 12h2v1h-2zM9 12h1v1h-1zM11 12h3v1h-3zM15 12h3v1h-3zM19 12h2v1h-2zM23 12h4v1h-4zM0 13h1v1h-1zM2 13h1v1h-1zM4 13h2v1h-2zM8 13h3v1h-3zM13 13h6v1h-6zM20 13h2v1h-2zM23 13h2v1h-2zM26 13h2v1h-2zM1 14h1v1h-1zM4 14h3v1h-3zM8 14h1v1h-1zM11 14h3v1h-3zM15 14h1v1h-1zM18 14h1v1h-1zM21 14h1v1h-1zM23 14h1v1h-1zM26 14h1v1h-1zM7 15h1v1h-1zM10 15h1v1h-1zM14 15h3v1h-3zM18 15h1v1h-1zM20 15h1v1h-1zM25 15h1v1h-1zM0 16h3v1h-3zM6 16h4v1h-4zM11 16h2v1h-2zM15 16h2v1h-2zM19 16h1v1h-1zM23 16h1v1h-1zM25 16h1v1h-1zM27 16h2v1h-2zM0 17h2v1h-2zM3 17h1v1h-1zM8 17h1v1h-1zM11 17h3v1h-3zM15 17h2v1h-2zM18 17h3v1h-3zM22 17h1v1h-1zM24 17h2v1h-2zM27 17h1v1h-1zM0 18h1v1h-1zM2 18h1v1h-1zM4 18h1v1h-1zM6 18h2v1h-2zM9 18h7v1h-7zM17 18h1v1h-1zM20 18h1v1h-1zM23 18h2v1h-2zM0 19h1v1h-1zM2 19h1v1h-1zM5 19h1v1h-1zM8 19h2v1h-2zM13 19h1v1h-1zM15 19h1v1h-1zM20 19h3v1h-3zM24 19h1v1h-1zM28 19h1v1h-1zM0 20h1v1h-1zM3 20h1v1h-1zM5 20h2v1h-2zM8 20h1v1h-1zM14 20h5v1h-5zM20 20h7v1h-7zM8 21h2v1h-2zM16 21h2v1h-2zM20 21h1v1h-1zM24 21h1v1h-1zM26 21h1v1h-1zM0 22h7v1h-7zM9 22h4v1h-4zM15 22h6v1h-6zM22 22h1v1h-1zM24 22h1v1h-1zM26 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM12 23h1v1h-1zM14 23h2v1h-2zM19 23h2v1h-2zM24 23h2v1h-2zM27 23h1v1h-1zM0 24h1v1h-1zM2 24h3v1h-3zM6 24h1v1h-1zM8 24h3v1h-3zM15 24h1v1h-1zM20 24h6v1h-6zM27 24h2v1h-2zM0 25h1v1h-1zM2 25h3v1h-3zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h2v1h-2zM14 25h1v1h-1zM16 25h1v1h-1zM24 25h2v1h-2zM27 25h2v1h-2zM0 26h1v1h-1zM2 26h3v1h-3zM6 26h1v1h-1zM8 26h4v1h-4zM14 26h2v1h-2zM18 26h2v1h-2zM21 26h7v1h-7zM0 27h1v1h-1zM6 27h1v1h-1zM9 27h1v1h-1zM12 27h3v1h-3zM18 27h4v1h-4zM24 27h2v1h-2zM27 27h1v1h-1zM0 28h7v1h-7zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h2v1h-2zM16 28h4v1h-4zM24 28h2v1h-2z" fill="#16202a"/></svg><p data-i18n="wifi_scan"></p></div>
   </section>
 
-  <section>
-    <h2>Check-out</h2>
-    <ul>
-      <li>Turn off the lights, air conditioning and appliances.</li>
-      <li>Put used towels in the bathroom and bring the rubbish out.</li>
-      <li>Lock the door and leave the keys as agreed with the host.</li>
-    </ul>
+  <section class="blk" id="tv">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><h2 data-i18n="tv_h"></h2></div>
+    <p data-i18n="tv_1"></p>
   </section>
+
+  <section class="blk" id="appliances">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></svg></span><h2 data-i18n="appliances_h"></h2></div>
+    <p data-i18n="appliances_1"></p>
+    <div class="app-list"><div class="app-row"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3" width="17" height="18" rx="2"/><circle cx="9" cy="8.5" r="1.8"/><circle cx="15" cy="8.5" r="1.8"/><circle cx="9" cy="14.5" r="1.8"/><circle cx="15" cy="14.5" r="1.8"/></svg><span class="app-name" data-i18n="ap_stove"></span><span class="soon" data-i18n="ap_soon"></span></div><a class="app-row" href="https://www.samsung.com/es/support/model/WW70FG3M05TWEC/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13.5" r="4"/><path d="M7.5 6.5h.01M10.5 6.5h.01M15 6.5h2"/></svg><span class="app-name" data-i18n="ap_washer"></span></a><div class="app-row"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><rect x="6" y="9" width="8" height="6" rx="1"/><path d="M17.5 9.5h.01M17.5 12h.01M17.5 14.5h.01"/></svg><span class="app-name" data-i18n="ap_microwave"></span><span class="soon" data-i18n="ap_soon"></span></div></div>
+  </section>
+
+  <section class="blk" id="babies">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v15M20 5v15M4 9h16M4 15h16M8.7 9v6M12 9v6M15.3 9v6"/></svg></span><h2 data-i18n="babies_h"></h2></div>
+    <p data-i18n="babies_1"></p>
+  </section>
+
+  <section class="blk" id="rules">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><h2 data-i18n="rules_h"></h2></div>
+    <p data-i18n="rules_1"></p>
+    <p data-i18n="rules_2"></p>
+    <p data-i18n="rules_3"></p>
+  </section>
+
+  <section class="blk" id="checkout">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h5v16h-5M3 12h11M10 8l4 4-4 4"/></svg></span><h2 data-i18n="co_h"></h2></div>
+    <div class="fact"><span class="fact-label" data-i18n="co_h"></span><span class="fact-val">12:00</span></div>
+    <p data-i18n="co_2"></p>
+    <p data-i18n="co_3"></p>
+  </section>
+
+  <section class="blk" id="contact">
+    <div class="blk-head"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></span><h2 data-i18n="contact_h"></h2></div>
+    <p data-i18n="contact_1"></p>
+    <div class="cred" style="margin-top:16px">
+      <div class="cred-row">
+        <div class="cred-text"><span class="cred-label">WhatsApp</span><span class="cred-val" id="v-wa">+34 681 379 511</span></div>
+        <button type="button" class="copy" data-copy="v-wa" data-i18n="copy"></button>
+      </div>
+    </div>
+    <a class="wa" href="https://wa.me/34681379511" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+      <span data-i18n="wa"></span>
+    </a>
+  </section>
+
+  <div class="bye">
+    <p data-i18n="thanks_1"></p>
+    <p data-i18n="thanks_2"></p>
+  </div>
 </main>
 
-<footer>
-  <div class="footer-inner">Thank you for taking care of the apartment and the neighbourhood.</div>
-</footer>
+<script>
+  const I18N = {"en": {"back": "Apartment", "title": "Welcome!", "intro": "We are delighted that you have chosen our apartment for your stay. To make it as comfortable as possible, here is some useful information.", "n_parking": "Parking", "n_pool": "Pool", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Babies", "n_rules": "Rules", "n_checkout": "Check-out", "n_contact": "Contact", "parking_h": "Parking", "parking_1": "Guests can use the underground garage, reached by the elevator.", "parking_2": "The right-hand elevator goes down to the garage and needs the small metal key on your keychain. You need the same key to come back up from the garage.", "spot": "Your spot", "parking_3": "When driving, please use the map.", "map_cap": "Driving map", "pool_h": "Pool", "pool_hours": "Daily, 10:00–21:00", "pool_1": "The heated pool is on the ground floor.", "pool_2": "Start from the main hall. Use the glass back door (white access card), then turn left and walk about 80 meters.", "wifi_h": "Wi-Fi", "network": "Network", "password": "Password", "copy": "Copy", "copied": "Copied", "wifi_scan": "Or scan the QR code with your phone camera.", "tv_h": "TV", "tv_1": "You have free access to Netflix and Prime Video using our private accounts. Please do not misuse them or change the settings.", "babies_h": "Staying with babies", "babies_1": "We know how challenging it can be to travel with little ones. You can rent a crib and/or a high chair for 3 euros per night per item. Just ask the host and they will bring it up from the storage room.", "rules_h": "Rules", "rules_1": "<b>Strictly no smoking.</b> Do not smoke tobacco or any substance (electronic cigarettes included) anywhere in the apartment or on the balcony. A violation means an additional cleaning fee of 100 euros.", "rules_2": "Our neighbours are friendly locals who get up early. Please avoid parties and loud celebrations on the property.", "rules_3": "Please do not rearrange the furniture in the apartment.", "co_h": "Check-out", "co_1": "Check-out time is 12:00.", "co_2": "As a favour to the host, please put your rubbish in the street containers.", "co_3": "Leave the keys as agreed with the host.", "contact_h": "Contact", "contact_1": "If you have any questions or problems, call the host on the number provided. If you cannot get through, write to the owners on WhatsApp. We are available Monday to Sunday, 10:00–19:00.", "wa": "Message on WhatsApp", "thanks_1": "Please share your positive feedback on the platform where you booked, or directly with us. If you would like to visit again, message us about a direct booking.", "thanks_2": "We wish you a wonderful stay and hope to see you again!", "n_appliances": "Appliances", "appliances_h": "Appliances", "appliances_1": "Instructions for the stove, washing machine, microwave and other appliances.", "ap_stove": "Stove", "ap_washer": "Washing machine", "ap_microwave": "Microwave", "ap_soon": "Coming soon"}, "es": {"back": "Apartamento", "title": "¡Bienvenido!", "intro": "Estamos encantados de que hayas elegido nuestro apartamento para tu estancia. Para que sea lo más cómoda posible, aquí tienes información útil.", "n_parking": "Garaje", "n_pool": "Piscina", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Bebés", "n_rules": "Normas", "n_checkout": "Salida", "n_contact": "Contacto", "parking_h": "Estacionamiento", "parking_1": "Los huéspedes pueden usar el garaje subterráneo, al que se llega en ascensor.", "parking_2": "El ascensor de la derecha baja al garaje y necesita la pequeña llave de metal de tu llavero. La misma llave hace falta para volver a subir desde el garaje.", "spot": "Tu plaza", "parking_3": "Al conducir, usa el mapa.", "map_cap": "Mapa de acceso", "pool_h": "Piscina", "pool_hours": "Todos los días, 10:00–21:00", "pool_1": "La piscina climatizada está en la planta baja.", "pool_2": "Empieza en el vestíbulo principal. Usa la puerta de cristal trasera (tarjeta de acceso blanca), gira a la izquierda y camina unos 80 metros.", "wifi_h": "Wi-Fi", "network": "Red", "password": "Contraseña", "copy": "Copiar", "copied": "Copiado", "wifi_scan": "O escanea el código QR con la cámara del teléfono.", "tv_h": "TV", "tv_1": "Tienes acceso gratuito a Netflix y Prime Video con nuestras cuentas privadas. Por favor, no hagas un mal uso de ellas ni cambies la configuración.", "babies_h": "Estancia con bebés", "babies_1": "Sabemos lo complicado que es viajar con los más pequeños. Puedes alquilar una cuna y/o una trona por 3 euros por noche y por artículo. Solo tienes que pedírselo al anfitrión y los subirá desde el trastero.", "rules_h": "Normas", "rules_1": "<b>Prohibido fumar.</b> No fumes tabaco ni ninguna otra sustancia (cigarrillos electrónicos incluidos) en el apartamento ni en el balcón. La infracción supone un cargo adicional de limpieza de 100 euros.", "rules_2": "Nuestros vecinos son gente local, amable y madrugadora. Evita fiestas y celebraciones ruidosas en la propiedad.", "rules_3": "Por favor, no cambies la disposición de los muebles del apartamento.", "co_h": "Salida", "co_1": "La hora de salida es a las 12:00.", "co_2": "Como favor al anfitrión, deposita la basura en los contenedores de la calle.", "co_3": "Deja las llaves como hayas acordado con el anfitrión.", "contact_h": "Contacto", "contact_1": "Si tienes preguntas o problemas, llama al anfitrión al número facilitado. Si no consigues hablar con él, escribe a los propietarios por WhatsApp. Estamos disponibles de lunes a domingo, de 10:00 a 19:00.", "wa": "Escribir por WhatsApp", "thanks_1": "Comparte tu valoración positiva en la plataforma donde reservaste o directamente con nosotros. Si quieres volver, escríbenos para una reserva directa.", "thanks_2": "¡Te deseamos una estancia estupenda y esperamos verte de nuevo!", "n_appliances": "Electrodomésticos", "appliances_h": "Electrodomésticos", "appliances_1": "Instrucciones de la cocina, la lavadora, el microondas y otros electrodomésticos.", "ap_stove": "Cocina", "ap_washer": "Lavadora", "ap_microwave": "Microondas", "ap_soon": "Próximamente"}, "nl": {"back": "Appartement", "title": "Welkom!", "intro": "Wat fijn dat je voor ons appartement hebt gekozen. Om je verblijf zo comfortabel mogelijk te maken, vind je hier handige informatie.", "n_parking": "Parkeren", "n_pool": "Zwembad", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Baby's", "n_rules": "Regels", "n_checkout": "Vertrek", "n_contact": "Contact", "parking_h": "Parkeren", "parking_1": "Gasten kunnen de ondergrondse garage gebruiken, bereikbaar met de lift.", "parking_2": "De rechterlift gaat naar de garage en werkt alleen met het kleine metalen sleuteltje aan je sleutelbos. Hetzelfde sleuteltje heb je nodig om vanuit de garage weer omhoog te gaan.", "spot": "Jouw plek", "parking_3": "Gebruik de kaart als je met de auto komt.", "map_cap": "Routekaart", "pool_h": "Zwembad", "pool_hours": "Dagelijks, 10:00–21:00", "pool_1": "Het verwarmde zwembad ligt op de begane grond.", "pool_2": "Begin bij de hoofdhal. Neem de glazen achterdeur (witte toegangskaart), ga links en loop ongeveer 80 meter.", "wifi_h": "Wi-Fi", "network": "Netwerk", "password": "Wachtwoord", "copy": "Kopieer", "copied": "Gekopieerd", "wifi_scan": "Of scan de QR-code met de camera van je telefoon.", "tv_h": "TV", "tv_1": "Je hebt gratis toegang tot Netflix en Prime Video via onze privéaccounts. Misbruik ze niet en verander de instellingen niet.", "babies_h": "Verblijf met baby's", "babies_1": "We weten hoe lastig reizen met kleintjes kan zijn. Je kunt een babybedje en/of kinderstoel huren voor 3 euro per nacht per item. Vraag het de gastheer, dan brengt die ze vanuit de berging omhoog.", "rules_h": "Regels", "rules_1": "<b>Strikt rookverbod.</b> Rook geen tabak of andere stoffen (e-sigaretten inbegrepen) in het appartement of op het balkon. Bij overtreding betaal je 100 euro extra schoonmaakkosten.", "rules_2": "Onze buren zijn vriendelijke locals die vroeg opstaan. Vermijd feestjes en luidruchtige festiviteiten op het terrein.", "rules_3": "Verplaats de meubels in het appartement alsjeblieft niet.", "co_h": "Vertrek", "co_1": "De uitchecktijd is 12:00 uur.", "co_2": "Als gunst aan de gastheer: gooi je afval in de afvalcontainers op straat.", "co_3": "Laat de sleutels achter zoals afgesproken met de gastheer.", "contact_h": "Contact", "contact_1": "Heb je vragen of problemen? Bel de gastheer op het opgegeven nummer. Lukt dat niet, stuur dan de eigenaren een bericht via WhatsApp. We zijn bereikbaar van maandag tot en met zondag, 10:00–19:00.", "wa": "Stuur een WhatsApp-bericht", "thanks_1": "Deel gerust je positieve ervaring op het platform waar je hebt geboekt, of rechtstreeks met ons. Wil je nog eens terugkomen? Stuur ons een bericht voor een directe boeking.", "thanks_2": "We wensen je een heerlijk verblijf en hopen je weer te zien!", "n_appliances": "Apparaten", "appliances_h": "Apparaten", "appliances_1": "Handleidingen voor het fornuis, de wasmachine, de magnetron en andere apparaten.", "ap_stove": "Fornuis", "ap_washer": "Wasmachine", "ap_microwave": "Magnetron", "ap_soon": "Binnenkort"}, "fr": {"back": "Appartement", "title": "Bienvenue !", "intro": "Nous sommes ravis que vous ayez choisi notre appartement. Pour que votre séjour soit le plus agréable possible, voici quelques informations utiles.", "n_parking": "Parking", "n_pool": "Piscine", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Bébés", "n_rules": "Règles", "n_checkout": "Départ", "n_contact": "Contact", "parking_h": "Parking", "parking_1": "Les voyageurs peuvent utiliser le garage souterrain, accessible par l'ascenseur.", "parking_2": "L'ascenseur de droite descend au garage et nécessite la petite clé métallique de votre trousseau. Cette même clé est nécessaire pour remonter du garage.", "spot": "Votre place", "parking_3": "En voiture, suivez le plan.", "map_cap": "Plan d'accès", "pool_h": "Piscine", "pool_hours": "Tous les jours, 10:00–21:00", "pool_1": "La piscine chauffée se trouve au rez-de-chaussée.", "pool_2": "Partez du hall principal. Prenez la porte vitrée du fond (carte d'accès blanche), tournez à gauche et marchez environ 80 mètres.", "wifi_h": "Wi-Fi", "network": "Réseau", "password": "Mot de passe", "copy": "Copier", "copied": "Copié", "wifi_scan": "Ou scannez le code QR avec l'appareil photo de votre téléphone.", "tv_h": "TV", "tv_1": "Vous avez un accès gratuit à Netflix et Prime Video avec nos comptes privés. Merci de ne pas en abuser ni de modifier les réglages.", "babies_h": "Séjour avec bébé", "babies_1": "Nous savons que voyager avec de jeunes enfants n'est pas simple. Vous pouvez louer un lit bébé et/ou une chaise haute pour 3 euros par nuit et par article. Demandez simplement à l'hôte, qui les montera depuis le débarras.", "rules_h": "Règles", "rules_1": "<b>Interdiction stricte de fumer.</b> Ne fumez ni tabac ni aucune autre substance (cigarettes électroniques comprises) dans l'appartement ou sur le balcon. En cas d'infraction, 100 euros de frais de ménage supplémentaires seront facturés.", "rules_2": "Nos voisins sont des habitants sympathiques qui se lèvent tôt. Merci d'éviter les fêtes et les célébrations bruyantes dans la propriété.", "rules_3": "Merci de ne pas déplacer les meubles de l'appartement.", "co_h": "Départ", "co_1": "L'heure de départ est fixée à 12:00.", "co_2": "Pour rendre service à l'hôte, déposez vos déchets dans les conteneurs de la rue.", "co_3": "Laissez les clés comme convenu avec l'hôte.", "contact_h": "Contact", "contact_1": "Pour toute question ou problème, appelez l'hôte au numéro fourni. Si vous n'arrivez pas à le joindre, écrivez aux propriétaires sur WhatsApp. Nous sommes disponibles du lundi au dimanche, de 10:00 à 19:00.", "wa": "Écrire sur WhatsApp", "thanks_1": "N'hésitez pas à partager votre avis positif sur la plateforme où vous avez réservé, ou directement avec nous. Si vous souhaitez revenir, écrivez-nous pour une réservation directe.", "thanks_2": "Nous vous souhaitons un excellent séjour et espérons vous revoir !", "n_appliances": "Appareils", "appliances_h": "Appareils", "appliances_1": "Modes d'emploi de la cuisinière, du lave-linge, du micro-ondes et des autres appareils.", "ap_stove": "Cuisinière", "ap_washer": "Lave-linge", "ap_microwave": "Micro-ondes", "ap_soon": "Bientôt disponible"}, "ru": {"back": "Апартаменты", "title": "Добро пожаловать!", "intro": "Мы рады, что вы выбрали наши апартаменты. Чтобы вам было максимально комфортно, собрали полезную информацию.", "n_parking": "Парковка", "n_pool": "Бассейн", "n_wifi": "Wi-Fi", "n_tv": "ТВ", "n_babies": "С детьми", "n_rules": "Правила", "n_checkout": "Выезд", "n_contact": "Связь", "parking_h": "Парковка", "parking_1": "Гости могут пользоваться подземным гаражом, в который ведёт лифт.", "parking_2": "Правый лифт едет в гараж, и для него нужен маленький металлический ключ на вашей связке. Этот же ключ нужен, чтобы подняться обратно из гаража.", "spot": "Ваше место", "parking_3": "Если вы за рулём, пользуйтесь картой.", "map_cap": "Схема проезда", "pool_h": "Бассейн", "pool_hours": "Ежедневно, 10:00–21:00", "pool_1": "Бассейн с подогревом находится на первом этаже.", "pool_2": "Начните от главного холла. Выйдите через стеклянную заднюю дверь (нужна белая карта доступа), поверните налево и пройдите около 80 метров.", "wifi_h": "Wi-Fi", "network": "Сеть", "password": "Пароль", "copy": "Копировать", "copied": "Скопировано", "wifi_scan": "Или отсканируйте QR-код камерой телефона.", "tv_h": "Телевизор", "tv_1": "Вам доступны Netflix и Prime Video с наших личных аккаунтов, бесплатно. Пожалуйста, не злоупотребляйте и не меняйте настройки.", "babies_h": "Если вы с малышом", "babies_1": "Мы знаем, как непросто путешествовать с маленькими детьми. Можно взять в аренду детскую кроватку и/или стульчик для кормления: 3 евро за ночь за каждый предмет. Просто попросите хозяина, и их принесут из кладовой.", "rules_h": "Правила", "rules_1": "<b>Курение строго запрещено.</b> Нельзя курить табак и любые вещества (включая электронные сигареты) в квартире и на балконе. За нарушение взимается дополнительная плата за уборку 100 евро.", "rules_2": "Наши соседи доброжелательные местные жители, которые рано встают. Пожалуйста, не устраивайте вечеринок и шумных праздников.", "rules_3": "Пожалуйста, не переставляйте мебель в квартире.", "co_h": "Выезд", "co_1": "Время выезда: 12:00.", "co_2": "Просим вынести мусор в уличные контейнеры, это поможет хозяину.", "co_3": "Оставьте ключи, как договорились с хозяином.", "contact_h": "Связь с хозяевами", "contact_1": "Если возникнут вопросы или проблемы, позвоните хозяину по выданному номеру. Если не дозвонились, напишите владельцам в WhatsApp. Мы на связи с понедельника по воскресенье, с 10:00 до 19:00.", "wa": "Написать в WhatsApp", "thanks_1": "Будем благодарны за положительный отзыв на платформе, где вы бронировали, или лично нам. Если захотите приехать снова, напишите нам, чтобы забронировать напрямую.", "thanks_2": "Желаем вам прекрасного отдыха и надеемся увидеть вас снова!", "n_appliances": "Техника", "appliances_h": "Техника", "appliances_1": "Инструкции к плите, стиральной машине, микроволновке и другой технике.", "ap_stove": "Плита", "ap_washer": "Стиральная машина", "ap_microwave": "Микроволновка", "ap_soon": "Скоро"}, "no": {"back": "Leiligheten", "title": "Velkommen!", "intro": "Vi er glade for at du har valgt leiligheten vår. For at oppholdet skal bli så behagelig som mulig, har vi samlet litt nyttig informasjon.", "n_parking": "Parkering", "n_pool": "Basseng", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Baby", "n_rules": "Regler", "n_checkout": "Utsjekk", "n_contact": "Kontakt", "parking_h": "Parkering", "parking_1": "Gjester kan bruke garasjen under bakken, som nås med heisen.", "parking_2": "Heisen til høyre går ned til garasjen og krever den lille metallnøkkelen på nøkkelringen din. Du trenger den samme nøkkelen for å komme opp igjen fra garasjen.", "spot": "Din plass", "parking_3": "Bruk kartet når du kjører.", "map_cap": "Kjørekart", "pool_h": "Basseng", "pool_hours": "Hver dag, 10:00–21:00", "pool_1": "Det oppvarmede bassenget ligger i første etasje.", "pool_2": "Start i hovedhallen. Bruk glassdøren bakerst (hvitt adgangskort), ta til venstre og gå omtrent 80 meter.", "wifi_h": "Wi-Fi", "network": "Nettverk", "password": "Passord", "copy": "Kopier", "copied": "Kopiert", "wifi_scan": "Eller skann QR-koden med telefonkameraet.", "tv_h": "TV", "tv_1": "Du har gratis tilgang til Netflix og Prime Video via våre private kontoer. Ikke misbruk dem og ikke endre innstillingene.", "babies_h": "Opphold med baby", "babies_1": "Vi vet at det kan være krevende å reise med små barn. Du kan leie reiseseng og/eller høystol for 3 euro per natt per gjenstand. Spør verten, så bringer vedkommende dem opp fra boden.", "rules_h": "Regler", "rules_1": "<b>Strengt røykeforbud.</b> Ikke røyk tobakk eller andre stoffer (inkludert e-sigaretter) i leiligheten eller på balkongen. Brudd medfører et ekstra rengjøringsgebyr på 100 euro.", "rules_2": "Naboene våre er vennlige lokale som står tidlig opp. Unngå fester og høylytte feiringer på eiendommen.", "rules_3": "Ikke flytt på møblene i leiligheten.", "co_h": "Utsjekk", "co_1": "Utsjekk er klokken 12:00.", "co_2": "Som en tjeneste til verten ber vi deg legge søppelet i containerne ute i gaten.", "co_3": "La nøklene ligge slik du har avtalt med verten.", "contact_h": "Kontakt", "contact_1": "Har du spørsmål eller problemer, ring verten på nummeret du har fått. Kommer du ikke gjennom, send en melding til eierne på WhatsApp. Vi er tilgjengelige mandag til søndag, 10:00–19:00.", "wa": "Send melding på WhatsApp", "thanks_1": "Del gjerne en positiv tilbakemelding på plattformen der du booket, eller direkte til oss. Vil du besøke oss igjen, send en melding om direktebooking.", "thanks_2": "Vi ønsker deg et fint opphold og håper å se deg igjen!", "n_appliances": "Apparater", "appliances_h": "Apparater", "appliances_1": "Bruksanvisninger for komfyr, vaskemaskin, mikrobølgeovn og andre apparater.", "ap_stove": "Komfyr", "ap_washer": "Vaskemaskin", "ap_microwave": "Mikrobølgeovn", "ap_soon": "Kommer snart"}, "sv": {"back": "Lägenheten", "title": "Välkommen!", "intro": "Vi är glada att du har valt vår lägenhet. För att din vistelse ska bli så bekväm som möjligt har vi samlat lite användbar information.", "n_parking": "Parkering", "n_pool": "Pool", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Bebis", "n_rules": "Regler", "n_checkout": "Utcheckning", "n_contact": "Kontakt", "parking_h": "Parkering", "parking_1": "Gäster kan använda garaget under jord, som nås med hissen.", "parking_2": "Hissen till höger går ner till garaget och kräver den lilla metallnyckeln på din nyckelring. Samma nyckel behövs för att ta sig upp från garaget igen.", "spot": "Din plats", "parking_3": "Använd kartan när du kör.", "map_cap": "Vägkarta", "pool_h": "Pool", "pool_hours": "Varje dag, 10:00–21:00", "pool_1": "Den uppvärmda poolen ligger på bottenplanet.", "pool_2": "Utgå från huvudhallen. Använd glasdörren längst bak (vitt passerkort), sväng vänster och gå ungefär 80 meter.", "wifi_h": "Wi-Fi", "network": "Nätverk", "password": "Lösenord", "copy": "Kopiera", "copied": "Kopierat", "wifi_scan": "Eller skanna QR-koden med telefonens kamera.", "tv_h": "TV", "tv_1": "Du har gratis tillgång till Netflix och Prime Video via våra privata konton. Missbruka dem inte och ändra inte inställningarna.", "babies_h": "Vistelse med bebis", "babies_1": "Vi vet att det kan vara krävande att resa med små barn. Du kan hyra resesäng och/eller barnstol för 3 euro per natt och sak. Fråga värden så kommer de upp med dem från förrådet.", "rules_h": "Regler", "rules_1": "<b>Strikt rökförbud.</b> Rök inte tobak eller andra ämnen (inklusive e-cigaretter) i lägenheten eller på balkongen. Vid överträdelse tillkommer en städavgift på 100 euro.", "rules_2": "Våra grannar är vänliga lokalbor som går upp tidigt. Undvik fester och högljudda firanden på fastigheten.", "rules_3": "Flytta inte om möblerna i lägenheten.", "co_h": "Utcheckning", "co_1": "Utcheckning är klockan 12:00.", "co_2": "Som en tjänst till värden ber vi dig lägga soporna i containrarna på gatan.", "co_3": "Lämna nycklarna enligt överenskommelse med värden.", "contact_h": "Kontakt", "contact_1": "Har du frågor eller problem, ring värden på det nummer du fått. Går det inte att nå dem, skriv till ägarna på WhatsApp. Vi finns tillgängliga måndag till söndag, 10:00–19:00.", "wa": "Skriv på WhatsApp", "thanks_1": "Dela gärna ett positivt omdöme på plattformen där du bokade, eller direkt med oss. Vill du komma tillbaka, skriv till oss om en direktbokning.", "thanks_2": "Vi önskar dig en härlig vistelse och hoppas få se dig igen!", "n_appliances": "Apparater", "appliances_h": "Apparater", "appliances_1": "Instruktioner för spis, tvättmaskin, mikrovågsugn och andra apparater.", "ap_stove": "Spis", "ap_washer": "Tvättmaskin", "ap_microwave": "Mikrovågsugn", "ap_soon": "Kommer snart"}, "fi": {"back": "Asunto", "title": "Tervetuloa!", "intro": "Olemme iloisia, että valitsit asuntomme. Jotta oleskelusi olisi mahdollisimman mukava, olemme koonneet tähän hyödyllisiä tietoja.", "n_parking": "Pysäköinti", "n_pool": "Allas", "n_wifi": "Wi-Fi", "n_tv": "TV", "n_babies": "Vauva", "n_rules": "Säännöt", "n_checkout": "Lähtö", "n_contact": "Yhteys", "parking_h": "Pysäköinti", "parking_1": "Vieraat voivat käyttää maanalaista autohallia, johon pääsee hissillä.", "parking_2": "Oikeanpuoleinen hissi menee autohalliin, ja sen käyttöön tarvitaan avainnipussasi oleva pieni metalliavain. Samaa avainta tarvitaan, kun tulet autohallista takaisin ylös.", "spot": "Paikkasi", "parking_3": "Käytä ajaessasi karttaa.", "map_cap": "Ajokartta", "pool_h": "Uima-allas", "pool_hours": "Päivittäin 10:00–21:00", "pool_1": "Lämmitetty uima-allas sijaitsee pohjakerroksessa.", "pool_2": "Lähde päähallista. Käytä takana olevaa lasiovea (valkoinen kulkukortti), käänny vasemmalle ja kävele noin 80 metriä.", "wifi_h": "Wi-Fi", "network": "Verkko", "password": "Salasana", "copy": "Kopioi", "copied": "Kopioitu", "wifi_scan": "Tai skannaa QR-koodi puhelimen kameralla.", "tv_h": "TV", "tv_1": "Sinulla on ilmainen pääsy Netflixiin ja Prime Videoon yksityisten tiliemme kautta. Älä käytä niitä väärin äläkä muuta asetuksia.", "babies_h": "Vauvan kanssa", "babies_1": "Tiedämme, että pienten lasten kanssa matkustaminen voi olla haastavaa. Voit vuokrata matkasängyn ja/tai syöttötuolin 3 eurolla yöltä per tuote. Kysy asiaa isännältä, niin hän tuo ne varastosta.", "rules_h": "Säännöt", "rules_1": "<b>Tupakointi on ehdottomasti kielletty.</b> Älä polta tupakkaa tai muita aineita (sähkötupakka mukaan lukien) asunnossa tai parvekkeella. Rikkomuksesta peritään 100 euron lisäsiivousmaksu.", "rules_2": "Naapurimme ovat ystävällisiä paikallisia, jotka heräävät aikaisin. Vältä juhlia ja äänekkäitä juhlintoja kiinteistöllä.", "rules_3": "Älä siirtele asunnon huonekaluja.", "co_h": "Lähtö", "co_1": "Lähtöaika on klo 12:00.", "co_2": "Isännän avuksi: vie roskat katujen roskasäiliöihin.", "co_3": "Jätä avaimet isännän kanssa sovitulla tavalla.", "contact_h": "Yhteystiedot", "contact_1": "Jos sinulla on kysyttävää tai ongelmia, soita isännälle annettuun numeroon. Jos et tavoita häntä, kirjoita omistajille WhatsAppissa. Olemme tavoitettavissa maanantaista sunnuntaihin klo 10:00–19:00.", "wa": "Kirjoita WhatsAppissa", "thanks_1": "Jaa mielellään myönteinen palaute alustalla, jolta teit varauksen, tai suoraan meille. Jos haluat tulla uudelleen, laita viestiä suoravarauksesta.", "thanks_2": "Toivotamme sinulle ihanaa oleskelua ja toivomme näkevämme sinut taas!", "n_appliances": "Laitteet", "appliances_h": "Laitteet", "appliances_1": "Käyttöohjeet liedelle, pesukoneelle, mikroaaltouunille ja muille laitteille.", "ap_stove": "Liesi", "ap_washer": "Pesukone", "ap_microwave": "Mikroaaltouuni", "ap_soon": "Tulossa pian"}, "de": {"back": "Apartment", "title": "Willkommen!", "intro": "Wir freuen uns, dass Sie sich für unser Apartment entschieden haben. Damit Ihr Aufenthalt so angenehm wie möglich wird, haben wir einige nützliche Informationen für Sie zusammengestellt.", "n_parking": "Parken", "n_pool": "Pool", "n_wifi": "WLAN", "n_tv": "TV", "n_babies": "Baby", "n_rules": "Regeln", "n_checkout": "Abreise", "n_contact": "Kontakt", "parking_h": "Parken", "parking_1": "Gäste können die Tiefgarage nutzen, die mit dem Aufzug erreichbar ist.", "parking_2": "Der rechte Aufzug fährt in die Garage und funktioniert nur mit dem kleinen Metallschlüssel an Ihrem Schlüsselbund. Denselben Schlüssel brauchen Sie auch, um aus der Garage wieder nach oben zu fahren.", "spot": "Ihr Stellplatz", "parking_3": "Bitte nutzen Sie beim Fahren die Karte.", "map_cap": "Anfahrtskarte", "pool_h": "Pool", "pool_hours": "Täglich, 10:00–21:00", "pool_1": "Der beheizte Pool befindet sich im Erdgeschoss.", "pool_2": "Gehen Sie von der Haupthalle aus durch die gläserne Hintertür (weiße Zugangskarte), dann links und etwa 80 Meter geradeaus.", "wifi_h": "WLAN", "network": "Netzwerk", "password": "Passwort", "copy": "Kopieren", "copied": "Kopiert", "wifi_scan": "Oder scannen Sie den QR-Code mit der Handykamera.", "tv_h": "TV", "tv_1": "Sie haben kostenlosen Zugang zu Netflix und Prime Video über unsere privaten Konten. Bitte missbrauchen Sie diese nicht und ändern Sie keine Einstellungen.", "babies_h": "Aufenthalt mit Baby", "babies_1": "Wir wissen, wie anstrengend Reisen mit Kleinkindern sein kann. Sie können ein Kinderbett und/oder einen Hochstuhl für 3 Euro pro Nacht und Stück mieten. Fragen Sie einfach den Gastgeber, er bringt es Ihnen aus dem Abstellraum nach oben.", "rules_h": "Regeln", "rules_1": "<b>Striktes Rauchverbot.</b> Bitte rauchen Sie weder Tabak noch andere Substanzen (einschließlich E-Zigaretten) in der Wohnung oder auf dem Balkon. Bei einem Verstoß wird eine zusätzliche Reinigungsgebühr von 100 Euro berechnet.", "rules_2": "Unsere Nachbarn sind freundliche Einheimische, die früh aufstehen. Bitte verzichten Sie auf Partys und laute Feiern auf dem Grundstück.", "rules_3": "Bitte stellen Sie die Möbel in der Wohnung nicht um.", "co_h": "Abreise", "co_1": "Die Check-out-Zeit ist 12:00 Uhr.", "co_2": "Als Gefallen für den Gastgeber bitten wir Sie, den Müll in die Container auf der Straße zu bringen.", "co_3": "Lassen Sie die Schlüssel wie mit dem Gastgeber vereinbart zurück.", "contact_h": "Kontakt", "contact_1": "Bei Fragen oder Problemen rufen Sie den Gastgeber unter der angegebenen Nummer an. Wenn Sie ihn nicht erreichen, schreiben Sie den Eigentümern über WhatsApp. Wir sind von Montag bis Sonntag von 10:00 bis 19:00 Uhr erreichbar.", "wa": "Per WhatsApp schreiben", "thanks_1": "Teilen Sie gern Ihr positives Feedback auf der Plattform, über die Sie gebucht haben, oder direkt mit uns. Wenn Sie wieder zu Besuch kommen möchten, schreiben Sie uns für eine Direktbuchung.", "thanks_2": "Wir wünschen Ihnen einen wunderbaren Aufenthalt und hoffen, Sie wiederzusehen!", "n_appliances": "Geräte", "appliances_h": "Geräte", "appliances_1": "Anleitungen für Herd, Waschmaschine, Mikrowelle und weitere Geräte.", "ap_stove": "Herd", "ap_washer": "Waschmaschine", "ap_microwave": "Mikrowelle", "ap_soon": "Demnächst"}};
+  const LANGS = Object.keys(I18N);
 
+  function pickLang() {
+    try { const s = localStorage.getItem('lang'); if (s && I18N[s]) return s; } catch (e) {}
+    const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const map = { nb: 'no', nn: 'no' };
+    const l = map[nav] || nav;
+    return I18N[l] ? l : 'en';
+  }
+
+  function apply(lang) {
+    const dict = I18N[lang];
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = dict[el.dataset.i18n];
+      if (v === undefined) return;
+      if (v.indexOf('<b>') !== -1) el.innerHTML = v; else el.textContent = v;
+    });
+    document.querySelectorAll('.flag').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+    window.__lang = lang;
+  }
+
+  document.querySelectorAll('.flag').forEach(b => b.addEventListener('click', () => apply(b.dataset.lang)));
+
+  function selectText(el) {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+
+  document.querySelectorAll('.copy').forEach(btn => btn.addEventListener('click', () => {
+    const el = document.getElementById(btn.dataset.copy);
+    const text = el.textContent.trim();
+    const done = () => {
+      btn.textContent = I18N[window.__lang].copied; btn.classList.add('done');
+      setTimeout(() => { btn.textContent = I18N[window.__lang].copy; btn.classList.remove('done'); }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, () => selectText(el));
+    } else { selectText(el); }
+  }));
+
+  apply(pickLang());
+</script>
 </body>
 </html>
