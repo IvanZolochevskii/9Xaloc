@@ -388,6 +388,38 @@
       .book-platform-hero + .book-platform-hero { padding-left: 0; padding-top: 24px; border-left: none; border-top: 1px solid var(--sea-light); }
       .footer-inner { padding: 16px 20px; }
     }
+
+    .fab {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 18px;
+      background: var(--sea);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      border-radius: 28px;
+      box-shadow: 0 6px 20px rgba(26,127,160,0.35);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .fab:hover { background: var(--ink); transform: translateY(-2px); }
+
+    .fab svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none; stroke-width: 1.8;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    @media (max-width: 640px) {
+      .fab { right: 16px; bottom: 16px; padding: 14px; }
+      .fab span { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -410,7 +442,7 @@
         <div class="book-platform-hero">
           <span class="platform-label">Airbnb</span>
           <div class="platform-rating">
-            <span class="rating-score">4.96</span>
+            <span class="rating-score">4.97</span>
             <div class="rating-detail">
               <div class="stars">
                 <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -419,7 +451,7 @@
                 <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               </div>
-              <span class="rating-count">47 reviews</span>
+              <span class="rating-count">67 reviews</span>
             </div>
           </div>
           <a class="book-link" href="https://www.airbnb.es/rooms/989569132185789067" target="_blank" rel="noopener">
@@ -477,6 +509,11 @@
     <span id="lastUpdate"></span>
   </div>
 </footer>
+
+<a class="fab" href="rules.html" aria-label="House rules and tips">
+  <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+  <span>House rules &amp; tips</span>
+</a>
 
 <script>
   const MONTHS_AHEAD = 6;
